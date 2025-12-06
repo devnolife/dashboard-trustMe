@@ -1,51 +1,54 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import {
-  ChevronDown, Menu, X, Star, Zap, MapPin, Smartphone,
-  MessageCircle, Utensils, Search, Bell, Home, User,
-  Github, Linkedin, Instagram
-} from "lucide-react"
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { useTheme } from "next-themes"
 import Image from "next/image"
+import { useTheme } from "next-themes"
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
+import {
+  Menu, X, ArrowRight, Star, Zap, Shield,
+  Smartphone, Heart, Globe, ChevronRight,
+  Download, Instagram, Twitter, Facebook,
+  Moon, Sun, CheckCircle2, Play, Search,
+  Bell, Home, User, Utensils, MessageCircle
+} from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 
 // Phone Mockup Component for Hero Illustration
 const PhoneMockup = () => (
   <div className="relative w-[280px] h-[580px] bg-black rounded-[3rem] border-8 border-gray-900 shadow-2xl rotate-[-5deg] hover:rotate-0 transition-transform duration-500 z-20 mx-auto lg:mx-0">
-    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-6 bg-gray-900 rounded-b-xl z-30"></div>
+    <div className="absolute top-0 z-30 w-1/3 h-6 -translate-x-1/2 bg-gray-900 left-1/2 rounded-b-xl"></div>
     <div className="w-full h-full bg-background rounded-[2.5rem] overflow-hidden relative flex flex-col">
       {/* App Header */}
-      <div className="bg-primary/5 p-4 pt-8 flex items-center justify-between border-b border-border/50">
+      <div className="flex items-center justify-between p-4 pt-8 border-b bg-primary/5 border-border/50">
         <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-xs">TM</div>
-          <div className="font-heading font-bold text-sm">TrustMe</div>
+          <div className="flex items-center justify-center w-8 h-8 text-xs font-bold rounded-full bg-primary/20 text-primary">TM</div>
+          <div className="text-sm font-bold font-heading">TrustMe</div>
         </div>
         <Bell className="w-5 h-5 text-muted-foreground" />
       </div>
 
       {/* App Content */}
-      <div className="p-4 space-y-4 flex-1 overflow-hidden relative">
+      <div className="relative flex-1 p-4 space-y-4 overflow-hidden">
         {/* Search Bar */}
-        <div className="bg-muted/50 rounded-xl p-3 flex items-center space-x-2 text-muted-foreground text-xs">
+        <div className="flex items-center p-3 space-x-2 text-xs bg-muted/50 rounded-xl text-muted-foreground">
           <Search className="w-4 h-4" />
           <span>Mau makan apa hari ini?</span>
         </div>
 
         {/* Banner */}
-        <div className="w-full h-32 bg-gradient-to-br from-primary to-secondary rounded-xl p-4 text-white relative overflow-hidden group">
-          <div className="absolute -right-4 -bottom-4 text-6xl opacity-20 group-hover:scale-110 transition-transform">🍕</div>
-          <div className="font-bold text-lg relative z-10">Diskon 50%</div>
-          <div className="text-xs opacity-90 relative z-10">Khusus pengguna baru!</div>
+        <div className="relative w-full h-32 p-4 overflow-hidden text-white bg-linear-to-br from-primary to-secondary rounded-xl group">
+          <div className="absolute text-6xl transition-transform -right-4 -bottom-4 opacity-20 group-hover:scale-110">🍕</div>
+          <div className="relative z-10 text-lg font-bold">Diskon 50%</div>
+          <div className="relative z-10 text-xs opacity-90">Khusus pengguna baru!</div>
           <button className="mt-2 bg-white/20 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold">Claim Now</button>
         </div>
 
         {/* Categories */}
-        <div className="flex space-x-3 overflow-x-auto pb-2 no-scrollbar">
+        <div className="flex pb-2 space-x-3 overflow-x-auto no-scrollbar">
           {['🍔', '🍜', '🥗', '🥤', '🍰'].map((emoji, i) => (
-            <div key={i} className="w-12 h-12 bg-muted/50 rounded-xl flex items-center justify-center text-xl flex-shrink-0 hover:bg-primary/10 transition-colors cursor-pointer">
+            <div key={i} className="flex items-center justify-center flex-shrink-0 w-12 h-12 text-xl transition-colors cursor-pointer bg-muted/50 rounded-xl hover:bg-primary/10">
               {emoji}
             </div>
           ))}
@@ -58,12 +61,12 @@ const PhoneMockup = () => (
             { name: "Sushi Tei", time: "25 min", rating: "4.9", color: "bg-blue-100" },
             { name: "SaladStop!", time: "10 min", rating: "4.7", color: "bg-green-100" }
           ].map((item, i) => (
-            <div key={i} className="flex items-center space-x-3 p-2 rounded-xl bg-card shadow-sm border border-border/50 hover:border-primary/30 transition-colors cursor-pointer">
+            <div key={i} className="flex items-center p-2 space-x-3 transition-colors border shadow-sm cursor-pointer rounded-xl bg-card border-border/50 hover:border-primary/30">
               <div className={`w-12 h-12 rounded-lg ${item.color} flex items-center justify-center text-xl`}>
                 {['🍔', '🍣', '🥗'][i]}
               </div>
               <div className="flex-1">
-                <div className="font-bold text-sm">{item.name}</div>
+                <div className="text-sm font-bold">{item.name}</div>
                 <div className="text-[10px] text-muted-foreground flex items-center space-x-2">
                   <span>{item.time}</span>
                   <span>•</span>
@@ -76,10 +79,10 @@ const PhoneMockup = () => (
       </div>
 
       {/* Bottom Nav */}
-      <div className="bg-background border-t border-border/50 p-4 flex justify-between items-center text-muted-foreground">
+      <div className="flex items-center justify-between p-4 border-t bg-background border-border/50 text-muted-foreground">
         <Home className="w-6 h-6 text-primary" />
         <Search className="w-6 h-6" />
-        <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white -mt-8 shadow-lg shadow-primary/30">
+        <div className="flex items-center justify-center w-10 h-10 -mt-8 text-white rounded-full shadow-lg bg-primary shadow-primary/30">
           <Utensils className="w-5 h-5" />
         </div>
         <MessageCircle className="w-6 h-6" />
@@ -87,8 +90,8 @@ const PhoneMockup = () => (
       </div>
 
       {/* Floating Notification */}
-      <div className="absolute bottom-20 left-4 right-4 bg-white/90 dark:bg-zinc-900/90 backdrop-blur p-3 rounded-xl shadow-lg border border-primary/20 flex items-center space-x-3 animate-in slide-in-from-bottom-10 duration-1000 delay-500 z-40">
-        <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-xl">🛵</div>
+      <div className="absolute z-40 flex items-center p-3 space-x-3 duration-1000 delay-500 border shadow-lg bottom-20 left-4 right-4 bg-white/90 dark:bg-zinc-900/90 backdrop-blur rounded-xl border-primary/20 animate-in slide-in-from-bottom-10">
+        <div className="flex items-center justify-center w-10 h-10 text-xl bg-green-100 rounded-full">🛵</div>
         <div>
           <div className="text-xs font-bold">Pesanan sedang diantar!</div>
           <div className="text-[10px] text-muted-foreground">Tiba dalam 12 menit</div>
@@ -115,7 +118,7 @@ const FloatingEmojis = () => {
   }, [])
 
   return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {items.map((item, i) => (
         <div
           key={i}
@@ -148,7 +151,7 @@ export default function LandingPage() {
   }, [])
 
   return (
-    <div className="min-h-screen flex flex-col bg-background text-foreground font-sans overflow-x-hidden selection:bg-primary/30 selection:text-primary-foreground">
+    <div className="flex flex-col min-h-screen overflow-x-hidden font-sans bg-background text-foreground selection:bg-primary/30 selection:text-primary-foreground">
       {/* 1. NAVIGATION BAR */}
       <header
         className={`fixed top-0 z-50 w-full transition-all duration-300 ${scrolled
@@ -156,50 +159,55 @@ export default function LandingPage() {
           : "bg-transparent"
           }`}
       >
-        <div className="container mx-auto px-6 md:px-12 lg:px-20 h-20 flex items-center justify-between">
+        <div className="container flex items-center justify-between h-20 px-6 mx-auto md:px-12 lg:px-20">
           {/* Logo */}
           <div className="flex items-center space-x-2 cursor-pointer group" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-            <div className="bg-primary p-2 rounded-full group-hover:rotate-12 transition-transform duration-300">
-              <span className="font-heading font-bold text-white text-xl">T</span>
+            <div className="p-2 transition-transform duration-300 rounded-full bg-primary group-hover:rotate-12">
+              <span className="text-xl font-bold text-white font-heading">T</span>
             </div>
-            <span className="font-heading font-bold text-2xl tracking-tight">TrustMe</span>
+            <span className="text-2xl font-bold tracking-tight font-heading">TrustMe</span>
           </div>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center space-x-8 text-sm font-medium">
+          <nav className="items-center hidden space-x-8 text-sm font-medium md:flex">
             {['Fitur', 'Tentang', 'Download'].map((item) => (
               <Link
                 key={item}
                 href={`#${item.toLowerCase()}`}
-                className="relative group hover:text-primary transition-colors font-heading"
+                className="relative transition-colors group hover:text-primary font-heading"
               >
                 {item}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-secondary transition-all duration-300 group-hover:w-full" />
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-linear-to-r from-primary to-secondary transition-all duration-300 group-hover:w-full" />
               </Link>
             ))}
           </nav>
 
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="items-center hidden space-x-4 md:flex">
             <button
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="p-2 rounded-full hover:bg-muted transition-colors"
+              className="p-2 transition-colors rounded-full hover:bg-muted"
             >
-              <div className="w-5 h-5 rounded-full bg-gradient-to-tr from-primary to-secondary" />
+              <div className="w-5 h-5 rounded-full bg-linear-to-tr from-primary to-secondary" />
             </button>
-            <Button className="rounded-xl bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20 transition-all hover:scale-105 font-heading">
+            <Link href="/login">
+              <Button variant="ghost" className="font-heading hover:bg-primary/10 hover:text-primary">
+                Login
+              </Button>
+            </Link>
+            <Button className="text-white transition-all shadow-lg rounded-xl bg-primary hover:bg-primary/90 shadow-primary/20 hover:scale-105 font-heading">
               Download App
             </Button>
           </div>
 
           {/* Mobile Menu Toggle */}
-          <button className="md:hidden p-2" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-            {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          <button className="p-2 md:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
 
         {/* Mobile Nav */}
         {isMobileMenuOpen && (
-          <div className="md:hidden border-t border-border bg-background/95 backdrop-blur-xl p-4 space-y-4 animate-in slide-in-from-top-5 absolute w-full shadow-xl top-20 left-0 z-40">
+          <div className="absolute left-0 z-40 w-full p-4 space-y-4 border-t shadow-xl md:hidden border-border bg-background/95 backdrop-blur-xl animate-in slide-in-from-top-5 top-20">
             {['Fitur', 'Tentang', 'Download'].map((item) => (
               <Link
                 key={item}
@@ -210,8 +218,8 @@ export default function LandingPage() {
                 {item}
               </Link>
             ))}
-            <div className="pt-4 flex flex-col space-y-3">
-              <Button className="w-full justify-center bg-primary text-white font-heading rounded-xl h-12">Download App</Button>
+            <div className="flex flex-col pt-4 space-y-3">
+              <Button className="justify-center w-full h-12 text-white bg-primary font-heading rounded-xl">Download App</Button>
             </div>
           </div>
         )}
@@ -219,46 +227,46 @@ export default function LandingPage() {
 
       <main className="flex-1">
         {/* 2. HERO SECTION */}
-        <section className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
+        <section className="relative flex items-center min-h-screen pt-32 pb-20 overflow-hidden">
           {/* Background Decorations */}
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 animate-pulse duration-[5000ms]" />
-          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-secondary/20 rounded-full blur-[80px] translate-y-1/3 -translate-x-1/3" />
-          <div className="absolute top-1/2 left-1/2 w-[600px] h-[600px] bg-purple-500/10 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2 animate-pulse duration-[7000ms]" />
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-purple-500/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 animate-pulse duration-[5000ms]" />
+          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-500/20 rounded-full blur-[80px] translate-y-1/3 -translate-x-1/3" />
+          <div className="absolute top-1/2 left-1/2 w-[600px] h-[600px] bg-pink-500/10 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2 animate-pulse duration-[7000ms]" />
           <FloatingEmojis />
 
-          <div className="container mx-auto px-6 md:px-12 lg:px-20 relative z-10">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="container relative z-10 px-6 mx-auto md:px-12 lg:px-20">
+            <div className="grid items-center gap-12 lg:grid-cols-2">
               {/* Text Content */}
               <div className="space-y-8 text-center lg:text-left">
-                <div className="animate-float inline-block">
-                  <Badge variant="outline" className="px-5 py-2 rounded-full border-primary/30 bg-white/50 dark:bg-black/20 backdrop-blur-md text-foreground font-heading text-sm shadow-sm hover:shadow-md transition-all cursor-default">
+                <div className="inline-block animate-float">
+                  <Badge variant="outline" className="px-5 py-2 text-sm text-purple-700 transition-all rounded-full shadow-sm cursor-default border-purple-500/30 bg-purple-500/5 backdrop-blur-md dark:text-purple-300 font-heading hover:shadow-md">
                     <span className="mr-2">✨</span> Pesan Makanan Terbaik, Cepat, Muraahhh!!
                   </Badge>
                 </div>
 
                 <h1 className="text-5xl md:text-7xl font-heading font-extrabold tracking-tight leading-[1.1] animate-in fade-in slide-in-from-bottom-8 duration-1000">
                   Makan Enak <br />
-                  <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-[length:200%_auto] animate-gradient-x bg-clip-text text-transparent">
+                  <span className="bg-linear-to-r from-pink-500 via-purple-500 to-cyan-500 bg-size-[200%_auto] animate-gradient-x bg-clip-text text-transparent">
                     Jadi Gampang
                   </span>
                 </h1>
 
-                <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto lg:mx-0 leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
+                <p className="max-w-2xl mx-auto text-lg leading-relaxed duration-1000 delay-200 md:text-xl text-muted-foreground lg:mx-0 animate-in fade-in slide-in-from-bottom-8">
                   Ribuan restoran favorit? Gampang. Dipesan dalam 10 detik? Bisa. Makanannya sampai hangat? Pasti 🔥
                 </p>
 
-                <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start space-y-4 sm:space-y-0 sm:space-x-6 pt-8 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300">
-                  <Button size="lg" className="h-14 px-10 rounded-2xl text-lg bg-secondary hover:bg-secondary/90 text-white shadow-xl shadow-secondary/25 w-full sm:w-auto font-heading hover:scale-105 transition-transform duration-300">
+                <div className="flex flex-col items-center justify-center pt-8 space-y-4 duration-1000 delay-300 sm:flex-row lg:justify-start sm:space-y-0 sm:space-x-6 animate-in fade-in slide-in-from-bottom-8">
+                  <Button size="lg" className="w-full px-10 text-lg text-white transition-transform duration-300 shadow-xl h-14 rounded-2xl bg-secondary hover:bg-secondary/90 shadow-secondary/25 sm:w-auto font-heading hover:scale-105">
                     🚀 Mulai Sekarang
                   </Button>
-                  <Button size="lg" variant="outline" className="h-14 px-10 rounded-2xl text-lg border-2 border-primary/30 hover:border-primary text-primary hover:bg-primary/5 w-full sm:w-auto font-heading backdrop-blur-sm">
+                  <Button size="lg" variant="outline" className="w-full px-10 text-lg border-2 h-14 rounded-2xl border-primary/30 hover:border-primary text-primary hover:bg-primary/5 sm:w-auto font-heading backdrop-blur-sm">
                     Lihat Demo
                   </Button>
                 </div>
               </div>
 
               {/* Illustration */}
-              <div className="relative animate-in fade-in slide-in-from-right-8 duration-1000 delay-300 hidden lg:block">
+              <div className="relative hidden duration-1000 delay-300 animate-in fade-in slide-in-from-right-8 lg:block">
                 <div className="absolute inset-0 bg-gradient-to-tr from-primary/30 to-secondary/30 blur-[60px] rounded-full opacity-50" />
 
                 {/* Main Hero Image */}
@@ -285,22 +293,22 @@ export default function LandingPage() {
 
             {/* Scroll Indicator */}
             <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce duration-[2000ms] hidden lg:block">
-              <ChevronDown className="h-8 w-8 text-primary opacity-80" />
+              <ChevronDown className="w-8 h-8 text-primary opacity-80" />
             </div>
           </div>
         </section>
 
         {/* 3. FEATURES SECTION */}
-        <section id="fitur" className="py-24 relative">
-          <div className="container mx-auto px-6 md:px-12 lg:px-20">
-            <div className="text-center max-w-3xl mx-auto mb-20">
-              <h2 className="text-4xl md:text-5xl font-heading font-bold mb-6">Kenapa <span className="text-primary">TrustMe?</span></h2>
-              <p className="text-muted-foreground text-lg">
+        <section id="fitur" className="relative py-24">
+          <div className="container px-6 mx-auto md:px-12 lg:px-20">
+            <div className="max-w-3xl mx-auto mb-20 text-center">
+              <h2 className="mb-6 text-4xl font-bold md:text-5xl font-heading">Kenapa <span className="text-primary">TrustMe?</span></h2>
+              <p className="text-lg text-muted-foreground">
                 Fitur-fitur yang bikin experience lu jadi top tier 🔝
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
               {[
                 {
                   icon: MapPin,
@@ -353,7 +361,7 @@ export default function LandingPage() {
               ].map((feature, i) => (
                 <div
                   key={i}
-                  className="group relative h-full p-8 rounded-3xl bg-white/50 dark:bg-white/5 border border-white/20 dark:border-white/10 backdrop-blur-sm hover:bg-white/80 dark:hover:bg-white/10 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:shadow-primary/5 overflow-hidden flex flex-col"
+                  className="relative flex flex-col h-full p-8 overflow-hidden transition-all duration-300 border group rounded-3xl bg-white/50 dark:bg-white/5 border-white/20 dark:border-white/10 backdrop-blur-sm hover:bg-white/80 dark:hover:bg-white/10 hover:-translate-y-2 hover:shadow-xl hover:shadow-primary/5"
                 >
                   <div className="relative z-10 flex-1">
                     <div className={`w-14 h-14 rounded-2xl ${feature.bg} flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300`}>
@@ -363,7 +371,7 @@ export default function LandingPage() {
                     <p className="text-muted-foreground">{feature.desc}</p>
                   </div>
 
-                  <div className="absolute bottom-0 right-0 w-40 h-40 translate-x-8 translate-y-8 opacity-20 group-hover:opacity-100 group-hover:translate-x-2 group-hover:translate-y-2 transition-all duration-500">
+                  <div className="absolute bottom-0 right-0 w-40 h-40 transition-all duration-500 translate-x-8 translate-y-8 opacity-20 group-hover:opacity-100 group-hover:translate-x-2 group-hover:translate-y-2">
                     <Image
                       src={feature.img}
                       alt={feature.title}
@@ -379,21 +387,21 @@ export default function LandingPage() {
 
         {/* 4. STATS SECTION */}
         <section className="py-20">
-          <div className="container mx-auto px-6 md:px-12 lg:px-20">
-            <div className="rounded-[2.5rem] bg-gradient-to-r from-primary to-secondary p-12 md:p-20 relative overflow-hidden shadow-2xl shadow-primary/20">
+          <div className="container px-6 mx-auto md:px-12 lg:px-20">
+            <div className="rounded-[2.5rem] bg-linear-to-r from-violet-600 via-fuchsia-500 to-orange-500 p-12 md:p-20 relative overflow-hidden shadow-2xl shadow-purple-500/20">
               <div className="absolute inset-0 bg-white/10 backdrop-blur-[2px]" />
               <FloatingEmojis />
 
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-12 relative z-10">
+              <div className="relative z-10 grid grid-cols-2 gap-12 md:grid-cols-4">
                 {[
                   { num: "5M+", label: "Pengguna Asik" },
                   { num: "10K+", label: "Resto Partner" },
                   { num: "2M+", label: "Pesanan Daily" },
                   { num: "4.8★", label: "Rating App" }
                 ].map((stat, i) => (
-                  <div key={i} className="text-center group hover:scale-105 transition-transform duration-300">
-                    <div className="text-4xl md:text-5xl font-heading font-bold text-white mb-2 drop-shadow-sm">{stat.num}</div>
-                    <div className="text-white/90 font-medium text-lg">{stat.label}</div>
+                  <div key={i} className="text-center transition-transform duration-300 group hover:scale-105">
+                    <div className="mb-2 text-4xl font-bold text-white md:text-5xl font-heading drop-shadow-sm">{stat.num}</div>
+                    <div className="text-lg font-medium text-white/90">{stat.label}</div>
                   </div>
                 ))}
               </div>
@@ -403,57 +411,65 @@ export default function LandingPage() {
 
         {/* 5. HOW IT WORKS */}
         <section className="py-24 bg-muted/30">
-          <div className="container mx-auto px-6 md:px-12 lg:px-20">
-            <div className="text-center mb-20">
-              <h2 className="text-4xl md:text-5xl font-heading font-bold mb-4">4 Langkah, <span className="text-secondary">Puas Makan</span></h2>
-              <p className="text-muted-foreground text-lg">Dari order sampai delivery, semua cepet banget 💨</p>
+          <div className="container px-6 mx-auto md:px-12 lg:px-20">
+            <div className="mb-20 text-center">
+              <h2 className="mb-4 text-4xl font-bold md:text-5xl font-heading">4 Langkah, <span className="text-secondary">Puas Makan</span></h2>
+              <p className="text-lg text-muted-foreground">Dari order sampai delivery, semua cepet banget 💨</p>
             </div>
 
             <div className="relative">
               {/* Connector Line (Desktop) */}
-              <div className="hidden md:block absolute top-24 left-0 w-full h-1 bg-gradient-to-r from-primary via-secondary to-primary bg-[length:200%_auto] animate-gradient-x opacity-30" />
+              <div className="hidden md:block absolute top-24 left-0 w-full h-1 bg-linear-to-r from-primary via-secondary to-primary bg-size-[200%_auto] animate-gradient-x opacity-30" />
 
-              <div className="grid md:grid-cols-4 gap-8">
+              <div className="grid gap-8 md:grid-cols-4">
                 {[
                   {
                     step: "1",
                     title: "Buka Aplikasi",
                     desc: "Download TrustMe di App Store atau Play Store",
-                    img: "/asset/restaurant-waiter-confirming-online-food-order.svg"
+                    img: "/asset/restaurant-waiter-confirming-online-food-order.svg",
+                    color: "bg-blue-500",
+                    shadow: "shadow-blue-500/30"
                   },
                   {
                     step: "2",
                     title: "Pilih Restoran",
                     desc: "Cari restoran favorit atau explore yang baru",
-                    img: "/asset/delivery-man-picking-up-food-parcel-from-the-restaurant.svg"
+                    img: "/asset/delivery-man-picking-up-food-parcel-from-the-restaurant.svg",
+                    color: "bg-orange-500",
+                    shadow: "shadow-orange-500/30"
                   },
                   {
                     step: "3",
                     title: "Pesan & Bayar",
                     desc: "Tambah ke keranjang, checkout dengan mudah",
-                    img: "/asset/man-delivering-food-using-bicycle.svg"
+                    img: "/asset/man-delivering-food-using-bicycle.svg",
+                    color: "bg-purple-500",
+                    shadow: "shadow-purple-500/30"
                   },
                   {
                     step: "4",
                     title: "Makanan Sampe!",
                     desc: "Tracking real-time, sampe hangat 🎉",
-                    img: "/asset/female-customer-accepting-food-delivery.svg"
+                    img: "/asset/female-customer-accepting-food-delivery.svg",
+                    color: "bg-green-500",
+                    shadow: "shadow-green-500/30"
                   }
                 ].map((item, i) => (
                   <div key={i} className="relative flex flex-col items-center text-center group">
-                    <div className="w-48 h-48 mb-6 relative z-10 transition-transform duration-500 group-hover:scale-110 drop-shadow-xl">
+                    <div className="relative z-10 w-48 h-48 mb-6 transition-transform duration-500 group-hover:scale-110 drop-shadow-xl">
                       <Image
                         src={item.img}
                         alt={item.title}
                         fill
                         className="object-contain"
                       />
-                      <div className={`absolute -top-2 -right-2 w-10 h-10 rounded-full flex items-center justify-center text-xl font-heading font-bold text-white shadow-lg ${i % 2 === 0 ? 'bg-primary' : 'bg-secondary'}`}>
+                      <div className={`absolute -top-2 -right-2 w-10 h-10 rounded-full flex items-center justify-center text-xl font-heading font-bold text-white shadow-lg ${item.color} ${item.shadow}`}>
                         {item.step}
                       </div>
                     </div>
-                    <h3 className="text-xl font-heading font-bold mb-3">{item.title}</h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed">{item.desc}</p>
+                    <h3 className="mb-3 text-xl font-bold font-heading">{item.title}</h3>
+                    <p className="text-sm leading-relaxed text-muted-foreground">{item.desc}</p>
                   </div>
                 ))}
               </div>
@@ -462,25 +478,25 @@ export default function LandingPage() {
         </section>
 
         {/* 6. CTA SECTION */}
-        <section id="download" className="py-24 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/10" />
+        <section id="download" className="relative py-24 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 via-purple-500/10 to-cyan-500/10" />
 
-          <div className="container mx-auto px-6 md:px-12 lg:px-20 relative z-10">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="container relative z-10 px-6 mx-auto md:px-12 lg:px-20">
+            <div className="grid items-center gap-12 lg:grid-cols-2">
               <div className="text-center lg:text-left">
-                <h2 className="text-4xl md:text-6xl font-heading font-extrabold mb-6 animate-in slide-in-from-bottom-8 fade-in duration-700">
+                <h2 className="mb-6 text-4xl font-extrabold duration-700 md:text-6xl font-heading animate-in slide-in-from-bottom-8 fade-in">
                   Jangan Nunggu Lagi, <br />
                   <span className="text-primary">Pesan Sekarang!</span>
                 </h2>
-                <p className="text-xl text-muted-foreground mb-12 max-w-2xl mx-auto lg:mx-0">
+                <p className="max-w-2xl mx-auto mb-12 text-xl text-muted-foreground lg:mx-0">
                   Ribuan orang lagi enjoy makanan favorit mereka nih. Jangan tertinggal! 🔥
                 </p>
 
-                <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start space-y-4 sm:space-y-0 sm:space-x-6">
-                  <Button className="h-16 px-8 rounded-2xl bg-secondary hover:bg-secondary/90 text-white text-lg font-heading shadow-xl hover:-translate-y-1 transition-all duration-300 w-full sm:w-auto">
+                <div className="flex flex-col items-center justify-center space-y-4 sm:flex-row lg:justify-start sm:space-y-0 sm:space-x-6">
+                  <Button className="w-full h-16 px-8 text-lg text-white transition-all duration-300 shadow-xl rounded-2xl bg-secondary hover:bg-secondary/90 font-heading hover:-translate-y-1 sm:w-auto">
                     📱 Download iOS
                   </Button>
-                  <Button className="h-16 px-8 rounded-2xl bg-primary hover:bg-primary/90 text-white text-lg font-heading shadow-xl hover:-translate-y-1 transition-all duration-300 w-full sm:w-auto">
+                  <Button className="w-full h-16 px-8 text-lg text-white transition-all duration-300 shadow-xl rounded-2xl bg-primary hover:bg-primary/90 font-heading hover:-translate-y-1 sm:w-auto">
                     🤖 Download Android
                   </Button>
                 </div>
@@ -502,18 +518,18 @@ export default function LandingPage() {
           </div>
         </section>
         {/* 7. DEVELOPER SECTION */}
-        <section className="py-24 border-t border-border/40 relative overflow-hidden">
-          <div className="absolute inset-0 bg-primary/5" />
-          <div className="container mx-auto px-6 md:px-12 lg:px-20 relative z-10">
+        <section className="relative py-24 overflow-hidden border-t border-border/40">
+          <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/5 to-purple-500/5" />
+          <div className="container relative z-10 px-6 mx-auto md:px-12 lg:px-20">
             <div className="max-w-5xl mx-auto bg-white/50 dark:bg-zinc-900/50 backdrop-blur-xl rounded-[2.5rem] p-8 md:p-12 border border-white/20 shadow-2xl flex flex-col md:flex-row items-center gap-12 text-center md:text-left">
               {/* Avatar / Image */}
               <div className="relative group shrink-0">
                 <div className="w-40 h-40 md:w-56 md:h-56 rounded-full bg-gradient-to-tr from-primary to-secondary p-1.5 shadow-2xl group-hover:scale-105 transition-transform duration-500 rotate-3 group-hover:rotate-0">
-                  <div className="w-full h-full rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center overflow-hidden relative">
+                  <div className="relative flex items-center justify-center w-full h-full overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800">
                     <span className="text-7xl md:text-8xl">👨‍💻</span>
                   </div>
                 </div>
-                <div className="absolute bottom-4 right-4 w-12 h-12 bg-green-500 rounded-full border-4 border-white dark:border-zinc-900 flex items-center justify-center text-white text-lg shadow-lg" title="Open for Work">
+                <div className="absolute flex items-center justify-center w-12 h-12 text-lg text-white bg-green-500 border-4 border-white rounded-full shadow-lg bottom-4 right-4 dark:border-zinc-900" title="Open for Work">
                   ⚡
                 </div>
               </div>
@@ -524,20 +540,20 @@ export default function LandingPage() {
                   <Badge variant="secondary" className="mb-4 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-primary/10 text-primary border-primary/20">
                     Meet the Creator
                   </Badge>
-                  <h2 className="text-3xl md:text-5xl font-heading font-bold mb-2">
-                    DevNoLife <span className="text-muted-foreground text-2xl md:text-3xl font-normal">/ Admin</span>
+                  <h2 className="mb-2 text-3xl font-bold md:text-5xl font-heading">
+                    DevNoLife <span className="text-2xl font-normal text-muted-foreground md:text-3xl">/ Admin</span>
                   </h2>
-                  <p className="text-xl text-primary font-medium">Fullstack Developer & UI Designer</p>
+                  <p className="text-xl font-medium text-primary">Fullstack Developer & UI Designer</p>
                 </div>
 
-                <p className="text-muted-foreground text-lg leading-relaxed max-w-2xl mx-auto md:mx-0">
+                <p className="max-w-2xl mx-auto text-lg leading-relaxed text-muted-foreground md:mx-0">
                   "Coding itu seni, bug itu bumbu." 🌶️ <br />
                   Gw suka bikin website yang nggak cuma fungsional, tapi juga punya <i>soul</i>. TrustMe ini adalah project iseng yang diseriusin biar lu bisa pesen makan dengan gaya!
                 </p>
 
                 {/* Socials */}
-                <div className="flex flex-wrap justify-center md:justify-start gap-4 pt-2">
-                  <Button variant="outline" className="h-12 px-6 rounded-xl gap-2 hover:bg-black hover:text-white hover:border-black transition-all duration-300">
+                <div className="flex flex-wrap justify-center gap-4 pt-2 md:justify-start">
+                  <Button variant="outline" className="h-12 gap-2 px-6 transition-all duration-300 rounded-xl hover:bg-black hover:text-white hover:border-black">
                     <Github className="w-5 h-5" /> GitHub
                   </Button>
                   <Button variant="outline" className="h-12 px-6 rounded-xl gap-2 hover:bg-[#0077b5] hover:text-white hover:border-[#0077b5] transition-all duration-300">
@@ -554,50 +570,50 @@ export default function LandingPage() {
       </main>
 
       {/* 7. FOOTER */}
-      <footer className="bg-background border-t border-gradient pt-20 pb-10 relative">
-        <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-primary to-secondary opacity-50" />
+      <footer className="relative pt-20 pb-10 border-t bg-background border-gradient">
+        <div className="absolute top-0 left-0 w-full h-[2px] bg-linear-to-r from-primary to-secondary opacity-50" />
 
-        <div className="container mx-auto px-6 md:px-12 lg:px-20">
-          <div className="grid md:grid-cols-4 gap-12 mb-16">
+        <div className="container px-6 mx-auto md:px-12 lg:px-20">
+          <div className="grid gap-12 mb-16 md:grid-cols-4">
             <div className="space-y-4">
               <div className="flex items-center space-x-2">
-                <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-heading font-bold text-xl">T</div>
-                <span className="font-heading font-bold text-2xl">TrustMe</span>
+                <div className="flex items-center justify-center w-10 h-10 text-xl font-bold text-white rounded-full bg-primary font-heading">T</div>
+                <span className="text-2xl font-bold font-heading">TrustMe</span>
               </div>
-              <p className="text-muted-foreground text-sm leading-relaxed">
+              <p className="text-sm leading-relaxed text-muted-foreground">
                 Makanan enak, pesan gampang, sampe cepat 🚀
               </p>
             </div>
 
             <div>
-              <h4 className="font-heading font-bold mb-6 text-lg">Produk</h4>
+              <h4 className="mb-6 text-lg font-bold font-heading">Produk</h4>
               <ul className="space-y-3 text-muted-foreground">
                 {['iOS App', 'Android App', 'Website'].map(item => (
-                  <li key={item}><a href="#" className="hover:text-primary transition-colors hover:translate-x-1 inline-block">{item}</a></li>
+                  <li key={item}><a href="#" className="inline-block transition-colors hover:text-primary hover:translate-x-1">{item}</a></li>
                 ))}
               </ul>
             </div>
 
             <div>
-              <h4 className="font-heading font-bold mb-6 text-lg">Perusahaan</h4>
+              <h4 className="mb-6 text-lg font-bold font-heading">Perusahaan</h4>
               <ul className="space-y-3 text-muted-foreground">
                 {['Tentang Kami', 'Blog', 'Karir'].map(item => (
-                  <li key={item}><a href="#" className="hover:text-primary transition-colors hover:translate-x-1 inline-block">{item}</a></li>
+                  <li key={item}><a href="#" className="inline-block transition-colors hover:text-primary hover:translate-x-1">{item}</a></li>
                 ))}
               </ul>
             </div>
 
             <div>
-              <h4 className="font-heading font-bold mb-6 text-lg">Dukungan</h4>
+              <h4 className="mb-6 text-lg font-bold font-heading">Dukungan</h4>
               <ul className="space-y-3 text-muted-foreground">
                 {['FAQ', 'Hubungi Kami', 'Kebijakan Privasi'].map(item => (
-                  <li key={item}><a href="#" className="hover:text-primary transition-colors hover:translate-x-1 inline-block">{item}</a></li>
+                  <li key={item}><a href="#" className="inline-block transition-colors hover:text-primary hover:translate-x-1">{item}</a></li>
                 ))}
               </ul>
             </div>
           </div>
 
-          <div className="border-t border-border pt-8 text-center">
+          <div className="pt-8 text-center border-t border-border">
             <p className="text-sm text-muted-foreground">
               © 2024 TrustMe Indonesia. Made with ❤️ & 🍕
             </p>

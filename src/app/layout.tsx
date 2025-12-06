@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Outfit, Poppins, Space_Grotesk } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
-import { Sidebar } from "@/components/sidebar";
+import { Providers } from "./providers";
+
 import { cn } from "@/lib/utils";
 
 const outfit = Outfit({
@@ -41,19 +41,13 @@ export default function RootLayout({
           spaceGrotesk.variable
         )}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <Providers>
           <div className="flex min-h-screen flex-col">
-            {/* <Sidebar /> */}
             <main className="flex-1 transition-all duration-300">
               {children}
             </main>
           </div>
-        </ThemeProvider>
+        </Providers>
       </body>
     </html>
   );

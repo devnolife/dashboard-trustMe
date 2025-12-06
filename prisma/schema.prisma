@@ -1,0 +1,135 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model knex_migrations {
+  id             Int       @id @default(autoincrement())
+  name           String?   @db.VarChar(255)
+  batch          Int?
+  migration_time DateTime? @db.Timestamptz(6)
+}
+
+model knex_migrations_lock {
+  index     Int  @id @default(autoincrement())
+  is_locked Int?
+}
+
+model admins {
+  id         Int       @id @default(autoincrement())
+  admin_id   String    @unique @default(uuid()) @db.VarChar(255)
+  username   String    @unique @db.VarChar(255)
+  password   String    @db.VarChar(255)
+  full_name  String?   @db.VarChar(255)
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at DateTime? @updatedAt @db.Timestamptz(6)
+}
+
+model menus {
+  id                       Int       @id @default(autoincrement())
+  menu_id                  String    @unique(map: "menus_menu_id_unique") @db.VarChar(255)
+  store_id                 String    @db.VarChar(255)
+  menu_name                String    @db.VarChar(255)
+  description              String?
+  price                    Int
+  category                 String?   @db.VarChar(255)
+  image_url                String?   @db.VarChar(255)
+  is_available             Boolean?  @default(true)
+  preparation_time_minutes Int?
+  created_at               DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at               DateTime? @db.Timestamptz(6)
+  stores                   stores    @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: NoAction, map: "menus_store_id_foreign")
+}
+
+model order_items {
+  id        Int     @id @default(autoincrement())
+  order_id  String  @db.VarChar(255)
+  menu_id   String  @db.VarChar(255)
+  menu_name String? @db.VarChar(255)
+  quantity  Int?
+  price     Int?
+  subtotal  Int?
+  notes     String?
+  orders    orders  @relation(fields: [order_id], references: [order_id], onDelete: Cascade, onUpdate: NoAction, map: "order_items_order_id_foreign")
+}
+
+model orders {
+  id                   Int           @id @default(autoincrement())
+  order_id             String        @unique(map: "orders_order_id_unique") @db.VarChar(255)
+  store_id             String        @db.VarChar(255)
+  store                stores        @relation(fields: [store_id], references: [store_id])
+  customer_id          String?       @db.VarChar(255)
+  customer             users?        @relation(fields: [customer_id], references: [user_id])
+  queue_number         Int?
+  subtotal             Int?
+  tax                  Int?
+  total_price          Int?
+  payment_method       String?       @db.VarChar(255)
+  payment_status       String?       @db.VarChar(255)
+  order_status         String?       @db.VarChar(255)
+  estimated_ready_time DateTime?     @db.Timestamptz(6)
+  created_at           DateTime?     @default(now()) @db.Timestamptz(6)
+  updated_at           DateTime?     @db.Timestamptz(6)
+  order_items          order_items[]
+}
+
+model payments {
+  id             Int       @id @default(autoincrement())
+  payment_id     String    @unique(map: "payments_payment_id_unique") @db.VarChar(255)
+  order_id       String    @db.VarChar(255)
+  amount         Int?
+  payment_status String?   @db.VarChar(255)
+  payment_method String?   @db.VarChar(255)
+  paid_at        DateTime? @db.Timestamptz(6)
+  created_at     DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+model reviews {
+  id         Int       @id @default(autoincrement())
+  review_id  String    @unique(map: "reviews_review_id_unique") @db.VarChar(255)
+  order_id   String    @db.VarChar(255)
+  store_id   String    @db.VarChar(255)
+  rating     Int?
+  comment    String?
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+model stores {
+  id           Int       @id @default(autoincrement())
+  store_id     String    @unique(map: "stores_store_id_unique") @db.VarChar(255)
+  merchant_id  String    @db.VarChar(255)
+  merchant     users     @relation(fields: [merchant_id], references: [user_id])
+  store_name   String    @db.VarChar(255)
+  description  String?
+  address      String?   @db.VarChar(255)
+  city         String?   @db.VarChar(255)
+  phone        String?   @db.VarChar(255)
+  latitude     Decimal?  @db.Decimal(10, 7)
+  longitude    Decimal?  @db.Decimal(10, 7)
+  category     String?   @db.VarChar(255)
+  opening_time String?   @db.VarChar(255)
+  closing_time String?   @db.VarChar(255)
+  is_active    Boolean?  @default(true)
+  created_at   DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at   DateTime? @db.Timestamptz(6)
+  menus        menus[]
+  orders       orders[]
+}
+
+model users {
+  id         Int       @id @default(autoincrement())
+  user_id    String    @unique(map: "users_user_id_unique") @db.VarChar(255)
+  username   String    @unique(map: "users_username_unique") @db.VarChar(255)
+  password   String    @db.VarChar(255)
+  full_name  String?   @db.VarChar(255)
+  phone      String?   @db.VarChar(255)
+  user_type  String?   @db.VarChar(255)
+  email      String?   @unique @db.VarChar(255)
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+  stores     stores[]
+  orders     orders[]
+}

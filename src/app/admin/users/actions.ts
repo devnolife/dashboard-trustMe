@@ -103,3 +103,50 @@ export async function getUserStats() {
     return { success: false, error: 'Failed to fetch user stats' };
   }
 }
+
+export async function getUserDetail(userId: string) {
+  try {
+    const user = await prisma.users.findUnique({
+      where: { user_id: userId },
+      include: {
+        stores: {
+          select: {
+            store_id: true,
+            store_name: true,
+            category: true,
+            city: true,
+            is_active: true,
+            _count: {
+              select: {
+                menus: true,
+                orders: true
+              }
+            }
+          }
+        },
+        orders: {
+          orderBy: { created_at: 'desc' },
+          take: 20,
+          select: {
+            order_id: true,
+            total_price: true,
+            order_status: true,
+            created_at: true,
+            store: {
+              select: { store_name: true }
+            }
+          }
+        }
+      }
+    });
+
+    if (!user) {
+      return { success: false, error: 'User not found' };
+    }
+
+    return { success: true, data: user };
+  } catch (error) {
+    console.error('Error fetching user detail:', error);
+    return { success: false, error: 'Failed to fetch user detail' };
+  }
+}
